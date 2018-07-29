@@ -1,0 +1,9 @@
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\bin\Debug\netcoreapp2.1\Kafka.Data.deps.json
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\bin\Debug\netcoreapp2.1\Kafka.Data.dll
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\bin\Debug\netcoreapp2.1\Kafka.Data.pdb
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\obj\Debug\netcoreapp2.1\Kafka.Data.csproj.CoreCompileInputs.cache
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\obj\Debug\netcoreapp2.1\Kafka.Data.AssemblyInfoInputs.cache
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\obj\Debug\netcoreapp2.1\Kafka.Data.AssemblyInfo.cs
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\obj\Debug\netcoreapp2.1\Kafka.Data.dll
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\obj\Debug\netcoreapp2.1\Kafka.Data.pdb
+C:\Users\mrjamiebowman\Documents\Kafka\DotNet-Sample\Kafka-DotNet-Core\Kafka.Data\obj\Debug\netcoreapp2.1\Kafka.Data.csprojAssemblyReference.cache
