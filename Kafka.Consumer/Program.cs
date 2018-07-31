@@ -10,7 +10,7 @@ namespace Kafka.Consumer
     {
         private static readonly Dictionary<string, object> Config = new Dictionary<string, object>
         {
-            { "group.id", "msg-id },
+            { "group.id", "msg-id" },
             { "bootstrap.servers", "127.0.0.1:9092" },
             { "auto.offset.reset", "earliest" }
         };
