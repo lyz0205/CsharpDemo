@@ -19,6 +19,7 @@ namespace Kafka.Producer
 
                 var config = new ProducerConfig
                 {
+                    Acks = Acks.All,
                     BootstrapServers = "127.0.0.1:9092",
                     ClientId = Dns.GetHostName(),
                 };

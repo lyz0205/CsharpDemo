@@ -16,27 +16,30 @@ namespace Kafka.Consumer
                     BootstrapServers = "127.0.0.1:9092",
                     // Disable auto-committing of offsets.
                     EnableAutoCommit = false,
-                    GroupId = "consumergroup1"
+                    GroupId = "consumer-group-1"
                 };
 
                 using (var consumer = new ConsumerBuilder<Ignore, string>(config).Build())
                 {
                     CancellationTokenSource cancellationToken = new CancellationTokenSource();
-
                     consumer.Subscribe("topic_messages");
-
-                    bool cancelled = false;
 
                     Console.CancelKeyPress += (_, e) => {
                         e.Cancel = true;
-                        cancelled = true;
                         cancellationToken.Cancel();
                     };
 
-                    while (!cancelled)
+                    while (true)
                     {
-                        var consumeResult = consumer.Consume(cancellationToken.Token);
-                        Console.WriteLine($"Consumed message '{consumeResult.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
+                        try
+                        {
+                            var consumeResult = consumer.Consume(cancellationToken.Token);
+                            Console.WriteLine($"Consumed message '{consumeResult.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
+                        }
+                        catch (ConsumeException ce)
+                        {
+                            Console.WriteLine($"consumer error: {ce.Error.Reason}");
+                        }
                     }
 
                     consumer.Close();
