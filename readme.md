@@ -3,6 +3,10 @@ Here's a simple demo of a producer and consumer for Kafka.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/57kp8qdv74lk0006?svg=true)](https://ci.appveyor.com/project/mrjamiebowman/kafka-c-sharp-sample)
 
+TODO: add in ack options for producer  
+TODO: partitions for consumer  
+TODO: keys for offsets  
+
 ## Blog Post
 [mrjamiebowman.com: Getting Started with Landoop Kafka on Docker Locally](https://www.mrjamiebowman.com/software-development/getting-started-with-landoop-kafka-on-docker-locally/)
 
