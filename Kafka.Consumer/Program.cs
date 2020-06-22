@@ -1,42 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Confluent.Kafka;
-using Confluent.Kafka.Serialization;
+﻿using Confluent.Kafka;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Kafka.Consumer
 {
     class Program
     {
-        private static readonly Dictionary<string, object> Config = new Dictionary<string, object>
-        {
-            { "group.id", "msg-id" },
-            { "bootstrap.servers", "127.0.0.1:9092" },
-            { "auto.offset.reset", "earliest" }
-        };
-
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
-                using (var consumer = new Consumer<string, string>(Config, new StringDeserializer(Encoding.UTF8), new StringDeserializer(Encoding.UTF8)))
+                var config = new ConsumerConfig
                 {
-                    consumer.OnMessage += (key, msg) => {
-                        Console.WriteLine($"Read '{msg.Value}' from: {msg.TopicPartitionOffset}");
-                    };
+                    BootstrapServers = "127.0.0.1:9092",
+                    // Disable auto-committing of offsets.
+                    EnableAutoCommit = false,
+                    GroupId = "consumergroup1"
+                };
 
-                    consumer.OnError += (_, error)
-                        => Console.WriteLine($"Error: {error}");
-
-                    consumer.OnConsumeError += (key, msg)
-                        => Console.WriteLine($"Consume error ({msg.TopicPartitionOffset}): {msg.Error}");
+                using (var consumer = new ConsumerBuilder<Ignore, string>(config).Build())
+                {
+                    CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
                     consumer.Subscribe("topic_messages");
 
-                    while (true)
+                    bool cancelled = false;
+
+                    Console.CancelKeyPress += (_, e) => {
+                        e.Cancel = true;
+                        cancelled = true;
+                        cancellationToken.Cancel();
+                    };
+
+                    while (!cancelled)
                     {
-                        consumer.Poll(TimeSpan.FromMilliseconds(100));
+                        var consumeResult = consumer.Consume(cancellationToken.Token);
+                        Console.WriteLine($"Consumed message '{consumeResult.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
                     }
+
+                    consumer.Close();
                 }
             }
             catch (System.Exception ex)

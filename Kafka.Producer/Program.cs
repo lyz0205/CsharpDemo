@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Confluent.Kafka;
-using Confluent.Kafka.Serialization;
+﻿using Confluent.Kafka;
 using Kafka.Data.Models;
 using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Kafka.Producer
 {
     class Program
     {
-        private readonly static Dictionary<string, object> Config = new Dictionary<string, object> {
-            { "bootstrap.servers", "127.0.0.1:9092" },
-            { "acks", "all" },
-            { "batch.num.messages", 1 },
-            { "linger.ms", 0 },
-            { "compression.codec", "gzip" }
-        };
-
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
                 // banner
                 Console.WriteLine("Kafka Producer Sample.");
                 Console.WriteLine("Press CTRL+C to exit");
+
+                var config = new ProducerConfig
+                {
+                    BootstrapServers = "127.0.0.1:9092",
+                    ClientId = Dns.GetHostName(),
+                };
 
                 var cancelled = false;
                 Console.CancelKeyPress += (_, e) => {
@@ -50,15 +47,13 @@ namespace Kafka.Producer
                     msg.Message = message;
                     msg.TimeStamp = msgTimeStamp;
 
-                    // send to Kafka
-                    using (var producer = new Producer<Null, string>(Config, null, new StringSerializer(Encoding.UTF8)))
+                    using (var producer = new ProducerBuilder<Null, string>(config).Build())
                     {
                         // convert the Msg model to json
                         var jsonMsg = JsonConvert.SerializeObject(msg);
 
                         // push to Kafka
-                        var dr = producer.ProduceAsync("topic_messages", null, jsonMsg).Result;
-                        producer.Flush(1);
+                        await producer.ProduceAsync("topic_messages", new Message<Null, string> { Value = jsonMsg });
                     }
 
                     // produce message to Kafka
