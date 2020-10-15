@@ -34,7 +34,7 @@ namespace Kafka.Consumer
                         try
                         {
                             var consumeResult = consumer.Consume(cancellationToken.Token);
-                            Console.WriteLine($"Consumed message '{consumeResult.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
+                            Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
                         }
                         catch (ConsumeException ce)
                         {
